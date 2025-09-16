@@ -76,7 +76,11 @@ app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/music', musicRoutes);
 import subscriptionRoutes from './routes/subscriptionRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+import notificationScheduler from './services/notificationScheduler.js';
+
 app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
@@ -92,5 +96,8 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(notFound);
 app.use(errorHandler);
+
+// Start notification scheduler
+notificationScheduler.start();
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
